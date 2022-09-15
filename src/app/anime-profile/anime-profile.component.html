@@ -1,0 +1,63 @@
+<div *ngIf="anime" class="container-fluid" style="color: #1976d2;">
+<br>
+<button class="btn btn-success btn-sm" (click)="goBack()">Go back</button>
+<hr>
+<div class="row" >
+  <!-- Display the Poster here  -->
+  <div class="col-sm-3">
+    <figure class="figure">
+      <img src="{{ anime.iconUrl }}" class="figure-img img-fluid rounded" alt="..." style="max-height: 469px;">
+    </figure>
+  </div>
+    
+    <!-- Anime Profile -->
+  <div class="col-sm-9">
+    <div class="card">
+      
+      <div class="card-header">
+        <h3 class="card-title">{{anime.name | uppercase }}</h3>
+      </div>
+
+      <div class="card-body">
+        <h5 class="card-title">Type : {{anime.type | titlecase}}</h5>
+        <div *ngIf="anime.status === 'completed'; else elseBlock">
+          <h5 class="card-title">Status : <span class="badge badge-success">{{anime.status}}</span></h5>
+        </div>
+          
+        <ng-template #elseBlock>
+          <h5 class="card-title">Status : <span class="badge badge-warning">{{anime.status}}</span></h5>
+        </ng-template>
+          
+        <h5 class="card-title">Description :</h5>
+        <p class="card-text">{{ anime.description }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+  
+  <!-- Comments box -->
+<div class="form-group row container">
+  <label class="col-sm-2 col-form-label" for="comment">Enter your comment :</label>
+  <div class="col-sm-9">
+    <input #comment
+           (keyup.enter)="addComment(comment.value); comment.value='' "
+           id="comment"
+           class="form-control">
+  </div>
+  <button class="col btn-primary btn"
+          (click)="addComment(comment.value); comment.value=''">Post
+  </button>
+</div>
+
+  <!-- Display comments here -->
+<div class="row container">
+  <div class="container">
+    <ul class="list-group list-group-flush" style="margin: 20px;">
+      <li class="list-group-item" *ngFor="let comment of anime.comments">
+        {{ comment }} 
+      </li>
+    </ul>
+  </div>
+</div>
+</div>
